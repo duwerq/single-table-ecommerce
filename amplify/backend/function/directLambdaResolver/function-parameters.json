@@ -1,0 +1,17 @@
+{
+    "permissions": {
+        "storage": {
+            "Vendor:@model(appsync)": [
+                "create",
+                "read",
+                "update"
+            ],
+            "Product:@model(appsync)": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}

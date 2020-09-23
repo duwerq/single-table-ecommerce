@@ -36,7 +36,7 @@ async function getInventory() {
   try {
     const {
       data: { listCategorys },
-    } = await API.graphql({ query: queries.listCategorys })
+    } = await API.graphql({ query: queries.listCategorys, PK: "CATEGORY" })
   
     if (listCategorys) {
       let inventory = []

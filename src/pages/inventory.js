@@ -75,14 +75,16 @@ class Inventory extends React.Component {
        <div className="flex flex-col items-center flex-1" >
           <h3>Inventory</h3>
           
-          {this.state.inventory.length > 0 && 
-          <>
+          
+          
             <div className="flex">
             <p role="button" className="mr-4 cursor-pointer hover:text-secondary" onClick={() => this.toggleViewState('inventory')}>View</p>
             <p role="button" className="mr-4 cursor-pointer hover:text-secondary" onClick={() => this.toggleViewState('inventory/add')}>Add Product</p>
           {payload["cognito:groups"] && payload["cognito:groups"].includes("admin")  && <p role="button" className="cursor-pointer hover:text-secondary" onClick={() => this.toggleViewState('add')}>Add Category</p>}
           </div>
-              {/* <Router > */}
+          {this.state.inventory.length > 0 && (
+              
+              <>
               {pathname === "/inventory" && <ViewInventory {...{...this.props, inventory}} /> }
               {pathname.includes('/inventory/add') &&  <AddInventory path='/inventory/add' {...this.props} editInventory={{}}/>}
               {pathname.includes('/inventory/edit') &&  <AddInventory {...this.props} editInventory={editInventory} fetchInventory={this.fetchInventory}/>}
@@ -96,8 +98,10 @@ class Inventory extends React.Component {
                       )
                   }
               */}
-                </>
-          }
+              </>
+              )
+            }
+              
           <button onClick={this.signOut} className="bg-secondary hover:bg-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
             Sign Out
           </button>

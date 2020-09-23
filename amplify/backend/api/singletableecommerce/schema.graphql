@@ -1,0 +1,528 @@
+type Vendor
+  @model(subscriptions: null)
+  @key(fields: ["PK", "SK"])
+  @auth(
+    rules: [
+      # {
+      #   allow: owner
+      #   ownerField: "admins"
+      #   identityField: "sub"
+      #   operations: [create, update, delete]
+      # }
+      {
+        allow: groups
+        groups: ["admin"]
+        queries: [get, list]
+        mutations: [create, update, delete]
+        # operations: [create, read, update, delete]
+      }
+      {
+        allow: owner
+        identityField: "custom:vendorID"
+        queries: [get, list]
+        mutations: [create, update, delete]
+      }
+      {
+        allow: public
+        provider: iam
+        queries: [get, list]
+        mutations: [create, update, delete]
+      }
+    ]
+  ) {
+  PK: ID! ##  VENDOR#<VendorID>
+  SK: ID! ##  VENDOR#<VendorID>
+  description: String
+  name: String
+  website: String
+}
+
+type Customer
+  @model(subscriptions: null)
+  @key(fields: ["PK", "SK"])
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "PK", identityField: "sub" }
+      { allow: groups, groups: ["admin"] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  PK: ID! ##  CUSTOMER#<CUSTOMERID>
+  SK: ID! ##  CUSTOMER#<CUSTOMERID>
+  userID: ID!
+  name: String!
+  email: AWSEmail!
+  city: String
+}
+
+type Product
+  @model
+  @key(fields: ["PK", "SK"])
+  @key(name: "GSI1", fields: ["GSI1PK", "GSI1SK"])
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "PK"
+        identityField: "custom:vendorID"
+        queries: [get, list]
+        mutations: [create, update, delete]
+      }
+      {
+        allow: groups
+        groups: ["admin"]
+        queries: [get, list]
+        mutations: [create, update, delete]
+      }
+      {
+        allow: private
+        provider: iam
+        queries: [get, list]
+        mutations: [create, update, delete]
+      }
+      { allow: public, provider: iam, queries: [get, list] }
+    ]
+  ) {
+  PK: ID! ## VENDOR#<VendorID>
+  SK: ID! ## PRODUCT#<ProductID>
+  GSI1PK: ID
+  GSI1SK: ID
+  vendorID: String
+  price: Float!
+  name: String!
+  image: String
+  description: String!
+  currentInventory: Int
+  brand: String
+  height: String
+  weight: String
+  upc: String
+  categories: [String]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+# type Category
+#   @model
+#   @key(fields: ["PK", "SK"])
+#   @key(name: "GSI1", fields: ["GSI1PK", "GSI1SK"])
+#   @auth(
+#     rules: [
+#       {
+#         allow: groups
+#         groups: ["admin"]
+#         queries: [get, list]
+#         mutations: [create, update, delete]
+#       }
+#       {
+#         allow: private
+#         provider: iam
+#         queries: [get, list]
+#         mutations: [create, update, delete]
+#       }
+#       { allow: public, provider: iam, queries: [get, list] }
+#     ]
+#   ) {
+#   PK: ID! ## CATEGORY
+#   SK: ID! ## CATEGORY#<CategoryName>
+#   GSI1PK: ID
+#   GSI1SK: ID
+#   name: String
+#   createdAt: AWSDateTime!
+#   updatedAt: AWSDateTime
+#   # products: [Product] @connection
+# }
+
+# type CategoryProduct
+#   @model
+#   @key(fields: ["PK", "SK"])
+#   @key(name: "GSI1", fields: ["GSI1PK", "GSI1SK"])
+#   @auth(
+#     rules: [
+#       {
+#         allow: owner
+#         ownerField: "PK"
+#         identityField: "custom:vendorID"
+#         queries: [get, list]
+#         mutations: [create, update, delete]
+#       }
+#       {
+#         allow: groups
+#         groups: ["admin"]
+#         queries: [get, list]
+#         mutations: [create, update, delete]
+#       }
+#       {
+#         allow: private
+#         provider: iam
+#         queries: [get, list]
+#         mutations: [create, update, delete]
+#       }
+#       { allow: public, provider: iam, queries: [get, list] }
+#     ]
+#   ) {
+#   PK: ID! ## VENDOR#<VendorID>
+#   SK: ID! ## PRODUCT#<ProductID>
+#   GSI1PK: ID
+#   GSI1SK: ID
+#   vendorID: String
+#   price: Float!
+#   name: String!
+#   image: String
+#   description: String!
+#   currentInventory: Int
+#   brand: String
+#   height: String
+#   weight: String
+#   upc: String
+#   categories: [String]
+#   createdAt: AWSDateTime
+#   updatedAt: AWSDateTime
+# }
+
+type Category @aws_cognito_user_pools @aws_iam {
+  PK: ID!
+  SK: ID!
+  GSI1PK: ID
+  GSI1SK: ID
+  name: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime
+  products: ModelProductConnection
+}
+
+type ModelProductConnection @aws_iam @aws_cognito_user_pools {
+  items: [Product]
+  nextToken: String
+}
+
+type CategoryProduct @aws_cognito_user_pools @aws_iam {
+  PK: ID!
+  SK: ID!
+  GSI1PK: ID
+  GSI1SK: ID
+  vendorID: String
+  price: Float!
+  name: String!
+  image: String
+  description: String!
+  currentInventory: Int
+  brand: String
+  height: String
+  weight: String
+  upc: String
+  categories: [String]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelCategoryConnection @aws_iam @aws_cognito_user_pools {
+  items: [Category]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelCategoryFilterInput {
+  PK: ModelIDInput
+  SK: ModelIDInput
+  GSI1PK: ModelIDInput
+  GSI1SK: ModelIDInput
+  name: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelCategoryFilterInput]
+  or: [ModelCategoryFilterInput]
+  not: ModelCategoryFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getCategory(PK: ID!, SK: ID!): Category @aws_iam @aws_cognito_user_pools
+  listCategorys(
+    PK: ID
+    SK: ModelIDKeyConditionInput
+    filter: ModelCategoryFilterInput
+    limit: Int
+    nextToken: String
+    sortDirection: ModelSortDirection
+  ): ModelCategoryConnection @aws_iam @aws_cognito_user_pools
+  getCategoryProduct(PK: ID!, SK: ID!): CategoryProduct
+    @aws_iam
+    @aws_cognito_user_pools
+  listCategoryProducts(
+    PK: ID
+    SK: ModelIDKeyConditionInput
+    filter: ModelCategoryProductFilterInput
+    limit: Int
+    nextToken: String
+    sortDirection: ModelSortDirection
+  ): ModelCategoryProductConnection @aws_iam @aws_cognito_user_pools
+}
+
+input CreateCategoryInput {
+  PK: ID!
+  SK: ID!
+  GSI1PK: ID
+  GSI1SK: ID
+  name: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input UpdateCategoryInput {
+  PK: ID!
+  SK: ID!
+  GSI1PK: ID
+  GSI1SK: ID
+  name: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input DeleteCategoryInput {
+  PK: ID!
+  SK: ID!
+}
+
+type Mutation {
+  createCategory(
+    input: CreateCategoryInput!
+    condition: ModelCategoryConditionInput
+  ): Category @aws_iam @aws_cognito_user_pools
+  updateCategory(
+    input: UpdateCategoryInput!
+    condition: ModelCategoryConditionInput
+  ): Category @aws_iam @aws_cognito_user_pools
+  deleteCategory(
+    input: DeleteCategoryInput!
+    condition: ModelCategoryConditionInput
+  ): Category @aws_iam @aws_cognito_user_pools
+  createCategoryProduct(
+    input: CreateCategoryProductInput!
+    condition: ModelCategoryProductConditionInput
+  ): CategoryProduct @aws_iam @aws_cognito_user_pools
+  updateCategoryProduct(
+    input: UpdateCategoryProductInput!
+    condition: ModelCategoryProductConditionInput
+  ): CategoryProduct @aws_iam @aws_cognito_user_pools
+  deleteCategoryProduct(
+    input: DeleteCategoryProductInput!
+    condition: ModelCategoryProductConditionInput
+  ): CategoryProduct @aws_iam @aws_cognito_user_pools
+}
+
+input ModelCategoryConditionInput {
+  GSI1PK: ModelIDInput
+  GSI1SK: ModelIDInput
+  name: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelCategoryConditionInput]
+  or: [ModelCategoryConditionInput]
+  not: ModelCategoryConditionInput
+}
+
+type Subscription {
+  onCreateCategory: Category @aws_subscribe(mutations: ["createCategory"])
+  onUpdateCategory: Category @aws_subscribe(mutations: ["updateCategory"])
+  onDeleteCategory: Category @aws_subscribe(mutations: ["deleteCategory"])
+  onCreateCategoryProduct: CategoryProduct
+    @aws_subscribe(mutations: ["createCategoryProduct"])
+  onUpdateCategoryProduct: CategoryProduct
+    @aws_subscribe(mutations: ["updateCategoryProduct"])
+  onDeleteCategoryProduct: CategoryProduct
+    @aws_subscribe(mutations: ["deleteCategoryProduct"])
+}
+
+type ModelCategoryProductConnection @aws_iam @aws_cognito_user_pools {
+  items: [CategoryProduct]
+  nextToken: String
+}
+
+input ModelCategoryProductFilterInput {
+  PK: ModelIDInput
+  SK: ModelIDInput
+  GSI1PK: ModelIDInput
+  GSI1SK: ModelIDInput
+  vendorID: ModelStringInput
+  price: ModelFloatInput
+  name: ModelStringInput
+  image: ModelStringInput
+  description: ModelStringInput
+  currentInventory: ModelIntInput
+  brand: ModelStringInput
+  height: ModelStringInput
+  weight: ModelStringInput
+  upc: ModelStringInput
+  categories: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelCategoryProductFilterInput]
+  or: [ModelCategoryProductFilterInput]
+  not: ModelCategoryProductFilterInput
+}
+
+input CreateCategoryProductInput {
+  PK: ID!
+  SK: ID!
+  GSI1PK: ID
+  GSI1SK: ID
+  vendorID: String
+  price: Float!
+  name: String!
+  image: String
+  description: String!
+  currentInventory: Int
+  brand: String
+  height: String
+  weight: String
+  upc: String
+  categories: [String]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input UpdateCategoryProductInput {
+  PK: ID!
+  SK: ID!
+  GSI1PK: ID
+  GSI1SK: ID
+  vendorID: String
+  price: Float
+  name: String
+  image: String
+  description: String
+  currentInventory: Int
+  brand: String
+  height: String
+  weight: String
+  upc: String
+  categories: [String]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input DeleteCategoryProductInput {
+  PK: ID!
+  SK: ID!
+}
+
+input ModelCategoryProductConditionInput {
+  GSI1PK: ModelIDInput
+  GSI1SK: ModelIDInput
+  vendorID: ModelStringInput
+  price: ModelFloatInput
+  name: ModelStringInput
+  image: ModelStringInput
+  description: ModelStringInput
+  currentInventory: ModelIntInput
+  brand: ModelStringInput
+  height: ModelStringInput
+  weight: ModelStringInput
+  upc: ModelStringInput
+  categories: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelCategoryProductConditionInput]
+  or: [ModelCategoryProductConditionInput]
+  not: ModelCategoryProductConditionInput
+}
+
+input ModelIDKeyConditionInput {
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  between: [ID]
+  beginsWith: ID
+}

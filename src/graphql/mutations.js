@@ -1,81 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createCategoryProduct = /* GraphQL */ `
-  mutation CreateCategoryProduct(
-    $input: CreateCategoryProductInput!
-    $condition: ModelCategoryProductConditionInput
-  ) {
-    createCategoryProduct(input: $input, condition: $condition) {
-      PK
-      SK
-      GSI1PK
-      GSI1SK
-      price
-      image
-      description
-      currentInventory
-      brand
-      height
-      weight
-      upc
-      vendorID
-      name
-      createdAt
-      categories
-    }
-  }
-`;
-export const updateCategoryProduct = /* GraphQL */ `
-  mutation UpdateCategoryProduct(
-    $input: UpdateCategoryProductInput!
-    $condition: ModelCategoryProductConditionInput
-  ) {
-    updateCategoryProduct(input: $input, condition: $condition) {
-      PK
-      SK
-      GSI1PK
-      GSI1SK
-      price
-      image
-      description
-      currentInventory
-      brand
-      height
-      weight
-      upc
-      vendorID
-      name
-      createdAt
-      categories
-    }
-  }
-`;
-export const deleteCategoryProduct = /* GraphQL */ `
-  mutation DeleteCategoryProduct(
-    $input: DeleteCategoryProductInput!
-    $condition: ModelCategoryProductConditionInput
-  ) {
-    deleteCategoryProduct(input: $input, condition: $condition) {
-      PK
-      SK
-      GSI1PK
-      GSI1SK
-      price
-      image
-      description
-      currentInventory
-      brand
-      height
-      weight
-      upc
-      vendorID
-      name
-      createdAt
-      categories
-    }
-  }
-`;
 export const createCategory = /* GraphQL */ `
   mutation CreateCategory(
     $input: CreateCategoryInput!
@@ -190,34 +115,12 @@ export const deleteCategory = /* GraphQL */ `
     }
   }
 `;
-export const addProductToCategory = /* GraphQL */ `
-  mutation AddProductToCategory($input: AddProductToCategoryInput) {
-    addProductToCategory(input: $input) {
-      PK
-      SK
-      GSI1PK
-      GSI1SK
-      price
-      image
-      description
-      currentInventory
-      brand
-      height
-      weight
-      upc
-      vendorID
-      name
-      createdAt
-      categories
-    }
-  }
-`;
-export const updateProductWithCategories = /* GraphQL */ `
-  mutation UpdateProductWithCategories(
-    $input: UpdateProductInput!
-    $condition: ModelProductConditionInput
+export const createCategoryProduct = /* GraphQL */ `
+  mutation CreateCategoryProduct(
+    $input: CreateCategoryProductInput!
+    $condition: ModelCategoryProductConditionInput
   ) {
-    updateProductWithCategories(input: $input, condition: $condition) {
+    createCategoryProduct(input: $input, condition: $condition) {
       PK
       SK
       GSI1PK
@@ -238,21 +141,55 @@ export const updateProductWithCategories = /* GraphQL */ `
     }
   }
 `;
-export const addNewVendor = /* GraphQL */ `
-  mutation AddNewVendor(
-    $input: CreateVendorInput!
-    $condition: ModelVendorConditionInput
+export const updateCategoryProduct = /* GraphQL */ `
+  mutation UpdateCategoryProduct(
+    $input: UpdateCategoryProductInput!
+    $condition: ModelCategoryProductConditionInput
   ) {
-    addNewVendor(input: $input, condition: $condition) {
+    updateCategoryProduct(input: $input, condition: $condition) {
       PK
       SK
-      description
+      GSI1PK
+      GSI1SK
+      vendorID
+      price
       name
-      website
-      vendorContactID
+      image
+      description
+      currentInventory
+      brand
+      height
+      weight
+      upc
+      categories
       createdAt
       updatedAt
-      phoneNumber
+    }
+  }
+`;
+export const deleteCategoryProduct = /* GraphQL */ `
+  mutation DeleteCategoryProduct(
+    $input: DeleteCategoryProductInput!
+    $condition: ModelCategoryProductConditionInput
+  ) {
+    deleteCategoryProduct(input: $input, condition: $condition) {
+      PK
+      SK
+      GSI1PK
+      GSI1SK
+      vendorID
+      price
+      name
+      image
+      description
+      currentInventory
+      brand
+      height
+      weight
+      upc
+      categories
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -267,10 +204,8 @@ export const createVendor = /* GraphQL */ `
       description
       name
       website
-      vendorContactID
       createdAt
       updatedAt
-      phoneNumber
     }
   }
 `;
@@ -285,10 +220,8 @@ export const updateVendor = /* GraphQL */ `
       description
       name
       website
-      vendorContactID
       createdAt
       updatedAt
-      phoneNumber
     }
   }
 `;
@@ -303,10 +236,8 @@ export const deleteVendor = /* GraphQL */ `
       description
       name
       website
-      vendorContactID
       createdAt
       updatedAt
-      phoneNumber
     }
   }
 `;

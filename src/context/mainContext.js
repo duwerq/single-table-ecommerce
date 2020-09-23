@@ -132,7 +132,7 @@ class ContextProviderComponent extends React.Component {
     try {
       const {
         data: { listCategorys },
-      } = await API.graphql({ query: queries.listCategorys })
+      } = await API.graphql({ query: queries.listCategorys, PK: "CATEGORIES" })
     
       if (listCategorys) {
         let inventory = []

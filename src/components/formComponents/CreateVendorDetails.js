@@ -64,7 +64,7 @@ class CreateVendorDetails extends React.Component {
 //       lat
 //     },
 //     placeID
-//   };
+//   };s
  
 //   try {
 //     const {data: {createLocation}} = await API.graphql(graphqlOperation(mutations.createLocation, {location}));
@@ -79,6 +79,9 @@ class CreateVendorDetails extends React.Component {
 createVendor = async () => {
   try {
     const {data: {addNewVendor}} = await API.graphql({query: mutations.addNewVendor, variables: {input: this.state}, authMode: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS })
+    if (addNewVendor) {
+      this.props.navigate("/inventory")
+    }
   } catch (error) {
     console.log({error})
   }

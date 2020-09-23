@@ -3,15 +3,15 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
-    "aws_cognito_identity_pool_id": "us-east-1:28dc7944-37e8-4ece-8950-7217805e5852",
+    "aws_cognito_identity_pool_id": "us-east-1:849015ad-6f04-4a68-a91f-86105361cbc1",
     "aws_cognito_region": "us-east-1",
-    "aws_user_pools_id": "us-east-1_K6ElAqoE9",
-    "aws_user_pools_web_client_id": "5s7is5c9u8alpssq4be0c914s6",
+    "aws_user_pools_id": "us-east-1_HrFBJKh4C",
+    "aws_user_pools_web_client_id": "2m4sbl48q600djvu9n4kaip4o3",
     "oauth": {},
-    "aws_appsync_graphqlEndpoint": "https://gyhv2u4ulzfnvotge2gh3t66le.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://eekfrc7qojhopaj7eqe4oovey4.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
     "aws_appsync_authenticationType": "AWS_IAM",
-    "aws_user_files_s3_bucket": "climatehub895cfbdd8bbb418bb6e0c3f73f16b702120244-dev",
+    "aws_user_files_s3_bucket": "product-images75641-dev",
     "aws_user_files_s3_bucket_region": "us-east-1"
 };
 
