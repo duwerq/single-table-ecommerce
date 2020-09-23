@@ -13,6 +13,10 @@
 		"authsingletableecommercee0c0fe59UserPoolId": {
 			"Type": "String",
 			"Default": "authsingletableecommercee0c0fe59UserPoolId"
+		},
+		"apisingletableGraphQLAPIIdOutput": {
+			"Type": "String",
+			"Default": "apisingletableGraphQLAPIIdOutput"
 		}
 	},
 	"Conditions": {
@@ -62,6 +66,61 @@
 						},
 						"AUTH_SINGLETABLEECOMMERCEE0C0FE59_USERPOOLID": {
 							"Ref": "authsingletableecommercee0c0fe59UserPoolId"
+						},
+						"API_SINGLETABLE_VENDORTABLE_NAME": {
+							"Fn::ImportValue": {
+								"Fn::Sub": "${apisingletableGraphQLAPIIdOutput}:GetAtt:VendorTable:Name"
+							}
+						},
+						"API_SINGLETABLE_VENDORTABLE_ARN": {
+							"Fn::Join": [
+								"",
+								[
+									"arn:aws:dynamodb:",
+									{
+										"Ref": "AWS::Region"
+									},
+									":",
+									{
+										"Ref": "AWS::AccountId"
+									},
+									":table/",
+									{
+										"Fn::ImportValue": {
+											"Fn::Sub": "${apisingletableGraphQLAPIIdOutput}:GetAtt:VendorTable:Name"
+										}
+									}
+								]
+							]
+						},
+						"API_SINGLETABLE_GRAPHQLAPIIDOUTPUT": {
+							"Ref": "apisingletableGraphQLAPIIdOutput"
+						},
+						"API_SINGLETABLE_PRODUCTTABLE_NAME": {
+							"Fn::ImportValue": {
+								"Fn::Sub": "${apisingletableGraphQLAPIIdOutput}:GetAtt:ProductTable:Name"
+							}
+						},
+						"API_SINGLETABLE_PRODUCTTABLE_ARN": {
+							"Fn::Join": [
+								"",
+								[
+									"arn:aws:dynamodb:",
+									{
+										"Ref": "AWS::Region"
+									},
+									":",
+									{
+										"Ref": "AWS::AccountId"
+									},
+									":table/",
+									{
+										"Fn::ImportValue": {
+											"Fn::Sub": "${apisingletableGraphQLAPIIdOutput}:GetAtt:ProductTable:Name"
+										}
+									}
+								]
+							]
 						}
 					}
 				},
@@ -75,7 +134,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-singletableecommerce-dev-75641-deployment",
-					"S3Key": "amplify-builds/directLambdaResolver-4b643251624c7833692f-build.zip"
+					"S3Key": "amplify-builds/directLambdaResolver-51454b594a317373434e-build.zip"
 				}
 			}
 		},
@@ -268,6 +327,130 @@
 											{
 												"Ref": "authsingletableecommercee0c0fe59UserPoolId"
 											}
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Put*",
+								"dynamodb:Create*",
+								"dynamodb:BatchWriteItem",
+								"dynamodb:Get*",
+								"dynamodb:BatchGetItem",
+								"dynamodb:List*",
+								"dynamodb:Describe*",
+								"dynamodb:Scan",
+								"dynamodb:Query",
+								"dynamodb:Update*",
+								"dynamodb:RestoreTable*",
+								"dynamodb:Delete*"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/",
+											{
+												"Fn::ImportValue": {
+													"Fn::Sub": "${apisingletableGraphQLAPIIdOutput}:GetAtt:VendorTable:Name"
+												}
+											}
+										]
+									]
+								},
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/",
+											{
+												"Fn::ImportValue": {
+													"Fn::Sub": "${apisingletableGraphQLAPIIdOutput}:GetAtt:VendorTable:Name"
+												}
+											},
+											"/index/*"
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Put*",
+								"dynamodb:Create*",
+								"dynamodb:BatchWriteItem",
+								"dynamodb:Get*",
+								"dynamodb:BatchGetItem",
+								"dynamodb:List*",
+								"dynamodb:Describe*",
+								"dynamodb:Scan",
+								"dynamodb:Query",
+								"dynamodb:Update*",
+								"dynamodb:RestoreTable*",
+								"dynamodb:Delete*"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/",
+											{
+												"Fn::ImportValue": {
+													"Fn::Sub": "${apisingletableGraphQLAPIIdOutput}:GetAtt:ProductTable:Name"
+												}
+											}
+										]
+									]
+								},
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/",
+											{
+												"Fn::ImportValue": {
+													"Fn::Sub": "${apisingletableGraphQLAPIIdOutput}:GetAtt:ProductTable:Name"
+												}
+											},
+											"/index/*"
 										]
 									]
 								}

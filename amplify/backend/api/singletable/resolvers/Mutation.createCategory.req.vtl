@@ -43,34 +43,21 @@ $util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.inpu
 
 
 
-#set ($name = $ctx.args.input.name)
-#set ($splitString = $ctx.args.input.name.split(" "))
-#if ($splitString.size() > 0)
- 	#set($name = $splitString.get(0))
-  	#foreach( $stringList in  $splitString)
-   		#if (!($foreach.first))
-   			#set($name = "${name}-${stringList}")
-   		#end
-  	#end
-#end
-
-#set($name = $name.toUpperCase())
-#set ($PK = $ctx.args.PK)
-#set ($SK = "CATEGORY#${name}")
-
 ## [Start] Set the primary @key. **
 #set( $modelObjectKey = {
-  "PK": $util.dynamodb.toDynamoDB($PK),
-  "SK": $util.dynamodb.toDynamoDB($SK)
+  "PK": $util.dynamodb.toDynamoDB($ctx.args.input.PK),
+  "SK": $util.dynamodb.toDynamoDB($ctx.args.input.SK)
 } )
-
+## [End] Set the primary @key. **
 
 ## [Start] Prepare DynamoDB PutItem Request. **
 $util.qr($context.args.input.put("__typename", "Category"))
 #set( $condition = {
-  "expression": "attribute_not_exists(PK) AND attribute_not_exists(SK)"
+  "expression": "attribute_not_exists(#id)",
+  "expressionNames": {
+      "#id": "id"
+  }
 } )
-
 #if( $context.args.condition )
   #set( $condition.expressionValues = {} )
   #set( $conditionFilterExpressions = $util.parseJson($util.transform.toDynamoDBConditionExpression($context.args.condition)) )

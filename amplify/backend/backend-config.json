@@ -3,7 +3,17 @@
         "singletableecommercee0c0fe59": {
             "service": "Cognito",
             "providerPlugin": "awscloudformation",
-            "dependsOn": []
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "singletableecommercee0c0fe59PostConfirmation",
+                    "triggerProvider": "Cognito",
+                    "attributes": [
+                        "Arn",
+                        "Name"
+                    ]
+                }
+            ]
         },
         "userPoolGroups": {
             "service": "Cognito-UserPool-Groups",
@@ -23,7 +33,7 @@
         }
     },
     "api": {
-        "singletableecommerce": {
+        "singletable": {
             "service": "AppSync",
             "providerPlugin": "awscloudformation",
             "output": {
@@ -55,8 +65,20 @@
                     "attributes": [
                         "UserPoolId"
                     ]
+                },
+                {
+                    "category": "api",
+                    "resourceName": "singletable",
+                    "attributes": [
+                        "GraphQLAPIIdOutput"
+                    ]
                 }
             ]
+        },
+        "singletableecommercee0c0fe59PostConfirmation": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda"
         }
     },
     "storage": {

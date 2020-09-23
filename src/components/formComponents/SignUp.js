@@ -41,7 +41,7 @@ class SignUp extends React.Component {
                 <button onClick={() => this.props.signUp(this.state)} className="bg-secondary hover:bg-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                   Sign Up
                 </button>
-                <a className="inline-block align-baseline font-bold text-sm" href="#" onClick={() => this.props.navigate('/vendor/signin')}>
+                <a className="inline-block align-baseline font-bold text-sm" href="#" onClick={() => this.props.navigate('/vendor/confirmSignUp')}>
                   Already signed up?
                 </a>
               </div>

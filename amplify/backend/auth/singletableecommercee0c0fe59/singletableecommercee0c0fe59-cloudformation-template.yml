@@ -9,6 +9,18 @@ Parameters:
     Type: String
   
   
+  
+  
+  functionsingletableecommercee0c0fe59PostConfirmationArn: 
+    Type: String
+    Default: functionsingletableecommercee0c0fe59PostConfirmationArn
+  
+  functionsingletableecommercee0c0fe59PostConfirmationName: 
+    Type: String
+    Default: functionsingletableecommercee0c0fe59PostConfirmationName
+  
+  
+  
 
     
   identityPoolName:
@@ -169,6 +181,19 @@ Resources:
         
       
       
+      LambdaConfig:
+        
+        
+        
+        
+        
+          PostConfirmation: !Ref functionsingletableecommercee0c0fe59PostConfirmationArn
+        
+        
+        
+        
+        
+      
       
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
       
@@ -197,6 +222,15 @@ Resources:
     
   
     
+  
+  UserPoolPostConfirmationLambdaInvokePermission: 
+    Type: "AWS::Lambda::Permission"
+    DependsOn: UserPool
+    Properties: 
+      Action: "lambda:invokeFunction"
+      Principal: "cognito-idp.amazonaws.com"
+      FunctionName: !Ref functionsingletableecommercee0c0fe59PostConfirmationName
+      SourceArn: !GetAtt UserPool.Arn
     
   
   
@@ -205,12 +239,47 @@ Resources:
   # Updating lambda role with permissions to Cognito
   
   
+  singletableecommercee0c0fe59PostConfirmationAddToGroupCognito:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: singletableecommercee0c0fe59PostConfirmationAddToGroupCognito
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+            
+              - cognito-idp:AdminAddUserToGroup
+            
+              - cognito-idp:GetGroup
+            
+              - cognito-idp:CreateGroup
+            
+            
+            
+            Resource: !GetAtt
+            
+              - UserPool
+            
+              - Arn
+            
+            
+            
+
+      Roles:
+        - !Join ['',["singletableecommercee0c0fe59PostConfirmation", '-', !Ref env]]
+  
+  
+  
   UserPoolClientWeb:
   # Created provide application access to user pool
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
       ClientName: singlee0c0fe59_app_clientWeb
+      
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -221,6 +290,9 @@ Resources:
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
       ClientName: singlee0c0fe59_app_client
+      
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
       
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity

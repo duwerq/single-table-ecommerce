@@ -45,7 +45,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "DirectLambdaResolvera444",
+                  "DirectLambdaResolvera636",
                   {
                     "Ref": "AppSyncApiId"
                   },
@@ -59,7 +59,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "DirectLambdaResolvera444",
+                  "DirectLambdaResolvera636",
                   {
                     "Ref": "AppSyncApiId"
                   }
@@ -166,7 +166,7 @@
       },
       "DependsOn": "DirectLambdaResolverLambdaDataSource"
     },
-    "MutationaddProductToCategoryResolver": {
+    "MutationaddProductToCategoryProductResolver": {
       "Type": "AWS::AppSync::Resolver",
       "Properties": {
         "ApiId": {
@@ -177,7 +177,7 @@
         "Kind": "UNIT",
         "DataSourceName": "DirectLambdaResolverLambdaDataSource"
       },
-      "DependsOn": "DirectLambdaResolverLambdaDataSource"
+      "DependsOn": "InvokeDirectLambdaResolverLambdaDataSource"
     },
     "MutationupdateProductWithCategoriesResolver": {
       "Type": "AWS::AppSync::Resolver",
@@ -190,7 +190,7 @@
         "Kind": "UNIT",
         "DataSourceName": "DirectLambdaResolverLambdaDataSource"
       },
-      "DependsOn": "DirectLambdaResolverLambdaDataSource"
+      "DependsOn": "InvokeDirectLambdaResolverLambdaDataSource"
     },
     "MutationaddNewVendorResolver": {
       "Type": "AWS::AppSync::Resolver",
@@ -200,10 +200,10 @@
         },
         "TypeName": "Mutation",
         "FieldName": "addNewVendor",
-        "DataSourceName": "DirectLambdaResolverLambdaDataSource",
-        "Kind": "UNIT"
+        "Kind": "UNIT",
+        "DataSourceName": "DirectLambdaResolverLambdaDataSource"
       },
-      "DependsOn": "DirectLambdaResolverLambdaDataSource"
+      "DependsOn": "InvokeDirectLambdaResolverLambdaDataSource"
     }
   },
   "Conditions": {

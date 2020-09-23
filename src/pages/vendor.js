@@ -43,20 +43,60 @@ class Vendor extends React.Component {
         }
           
       } else {
-        // if (this.props.location.pathname.includes('/ven/inventory')) {
+        
           this.props.navigate('/vendor/signin')
-        // }
+        
       }
   }
   signUp = async (form) => {
     const { username, email, password } = form
+    this.setState({password})
     // sign up
-    this.setState({ formState: 'confirmSignUp' })
+    try {
+      const signUpUser = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+            email          
+        }
+    });
+      if (signUpUser) {
+        const currentUser = await Auth.currentAuthenticatedUser();
+        if (currentUser) {
+          this.props.navigate('/vendor/confirm-signup')
+        }
+      }
+    } catch (error) {
+      console.log({error})
+      if (error && error.message) { 
+        toast(error.message, {
+          position: toast.POSITION.TOP_LEFT
+        })
+      } else {
+        toast("Error logging in!", {
+          position: toast.POSITION.TOP_LEFT
+        })
+      }
+      
+    }
   }
   confirmSignUp = async (form) => {
     const { username, authcode } = form
+    const {password} = this.state;
     // confirm sign up
-    this.setState({ formState: 'signIn' })
+    try {
+      const confirmSignUp  = await Auth.confirmSignUp(username, authcode);
+      const signedInUser = await Auth.signIn(username, password)
+      if (confirmSignUp && signedInUser)  {
+        const currentUser = await Auth.currentAuthenticatedUser();
+        if (currentUser) {
+          this.props.context.updateCurrentUser(currentUser);
+          this.props.navigate('/inventory')
+        }
+      }
+    } catch (error) {
+        console.log('error confirming sign up', error);
+    }
   }
   signIn = async (form) => {
     const { username, password } = form

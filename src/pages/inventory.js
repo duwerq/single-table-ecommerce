@@ -17,7 +17,7 @@ class Inventory extends React.Component {
   componentDidMount() {
    this.fetchInventory();
   }
-  toggleViewState(viewState) {
+  navigate(viewState) {
     this.props.navigate(`/${viewState}`);
   }
 
@@ -78,26 +78,17 @@ class Inventory extends React.Component {
           
           
             <div className="flex">
-            <p role="button" className="mr-4 cursor-pointer hover:text-secondary" onClick={() => this.toggleViewState('inventory')}>View</p>
-            <p role="button" className="mr-4 cursor-pointer hover:text-secondary" onClick={() => this.toggleViewState('inventory/add')}>Add Product</p>
-          {payload["cognito:groups"] && payload["cognito:groups"].includes("admin")  && <p role="button" className="cursor-pointer hover:text-secondary" onClick={() => this.toggleViewState('add')}>Add Category</p>}
+            <p role="button" className="mr-4 cursor-pointer hover:text-secondary" onClick={() => this.props.navigate('/inventory')}>View</p>
+            <p role="button" className="mr-4 cursor-pointer hover:text-secondary" onClick={() => this.props.navigate('/inventory/add')}>Add Product</p>
+          {payload["cognito:groups"] && payload["cognito:groups"].includes("admin")  && <p role="button" className="cursor-pointer hover:text-secondary" onClick={() => this.props.navigate('/inventory/add-category')}>Add Category</p>}
           </div>
           {this.state.inventory.length > 0 && (
               
               <>
               {pathname === "/inventory" && <ViewInventory {...{...this.props, inventory}} /> }
-              {pathname.includes('/inventory/add') &&  <AddInventory path='/inventory/add' {...this.props} editInventory={{}}/>}
+              {pathname === ('/inventory/add') &&  <AddInventory path='/inventory/add' {...this.props} editInventory={{}}/>}
               {pathname.includes('/inventory/edit') &&  <AddInventory {...this.props} editInventory={editInventory} fetchInventory={this.fetchInventory}/>}
-                  {/* </Router> */}
-                  {/* <AddInventory path='/vendor/edit/productID' {...this.props} editInventory={editInventory}/> */}
-                  {/* </Router> */}
-                  {/* {
-                    this.state.viewState === 'view' ? (
-                      <ViewInventory {...this.props} onEdit={(item) => this.setState({viewState: 'add', isEditing: item})} />
-                    ) : (<AddInventory {...this.props} isEditing={this.state.isEditing}/>
-                      )
-                  }
-              */}
+              {pathname.includes('/inventory/add-category') &&  <AddInventory {...this.props} editInventory={editInventory} fetchInventory={this.fetchInventory}/>}
               </>
               )
             }

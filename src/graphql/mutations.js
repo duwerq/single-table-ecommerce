@@ -168,11 +168,8 @@ export const updateCategoryProduct = /* GraphQL */ `
   }
 `;
 export const deleteCategoryProduct = /* GraphQL */ `
-  mutation DeleteCategoryProduct(
-    $input: DeleteCategoryProductInput!
-    $condition: ModelCategoryProductConditionInput
-  ) {
-    deleteCategoryProduct(input: $input, condition: $condition) {
+  mutation DeleteCategoryProduct($input: DeleteCategoryProductInput!) {
+    deleteCategoryProduct(input: $input) {
       PK
       SK
       GSI1PK
@@ -217,9 +214,7 @@ export const addProductToCategory = /* GraphQL */ `
   }
 `;
 export const updateProductWithCategories = /* GraphQL */ `
-  mutation UpdateProductWithCategories(
-    $input: UpdateProductWithCategoriesInput!
-  ) {
+  mutation UpdateProductWithCategories($input: UpdateWithCategoriesInput!) {
     updateProductWithCategories(input: $input) {
       PK
       SK
@@ -242,7 +237,7 @@ export const updateProductWithCategories = /* GraphQL */ `
   }
 `;
 export const addNewVendor = /* GraphQL */ `
-  mutation AddNewVendor($input: AddNewVendorInput!) {
+  mutation AddNewVendor($input: AddVendorInput!) {
     addNewVendor(input: $input) {
       PK
       SK

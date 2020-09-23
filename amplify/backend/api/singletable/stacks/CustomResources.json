@@ -81,6 +81,42 @@
                         "Ref": "AppSyncApiId"
                       },
                       "typeName": "Mutation",
+                      "fieldName": "updateProductWithCategories"
+                    }
+                  ]
+                },
+                {
+                  "Fn::Sub": [
+                    "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                    {
+                      "apiId": {
+                        "Ref": "AppSyncApiId"
+                      },
+                      "typeName": "Mutation",
+                      "fieldName": "addProductToCategory"
+                    }
+                  ]
+                },
+                {
+                  "Fn::Sub": [
+                    "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                    {
+                      "apiId": {
+                        "Ref": "AppSyncApiId"
+                      },
+                      "typeName": "Mutation",
+                      "fieldName": "addNewVendor"
+                    }
+                  ]
+                },
+                {
+                  "Fn::Sub": [
+                    "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                    {
+                      "apiId": {
+                        "Ref": "AppSyncApiId"
+                      },
+                      "typeName": "Mutation",
                       "fieldName": "updateVendor"
                     }
                   ]
@@ -378,42 +414,6 @@
                       },
                       "typeName": "Mutation",
                       "fieldName": "deleteCategoryProduct"
-                    }
-                  ]
-                },
-                {
-                  "Fn::Sub": [
-                    "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-                    {
-                      "apiId": {
-                        "Ref": "AppSyncApiId"
-                      },
-                      "typeName": "Mutation",
-                      "fieldName": "addProductToCategory"
-                    }
-                  ]
-                },
-                {
-                  "Fn::Sub": [
-                    "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-                    {
-                      "apiId": {
-                        "Ref": "AppSyncApiId"
-                      },
-                      "typeName": "Mutation",
-                      "fieldName": "updateProductWithCategories"
-                    }
-                  ]
-                },
-                {
-                  "Fn::Sub": [
-                    "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-                    {
-                      "apiId": {
-                        "Ref": "AppSyncApiId"
-                      },
-                      "typeName": "Mutation",
-                      "fieldName": "addNewVendor"
                     }
                   ]
                 },

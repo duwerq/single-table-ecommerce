@@ -124,7 +124,8 @@ type Product
 #   name: String
 #   createdAt: AWSDateTime!
 #   updatedAt: AWSDateTime
-#   # products: [Product] @connection
+#   # products: [Product]
+#   #  @connection
 # }
 
 # type CategoryProduct
@@ -182,12 +183,7 @@ type Category @aws_cognito_user_pools @aws_iam {
   name: String
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime
-  products: ModelProductConnection
-}
-
-type ModelProductConnection @aws_iam @aws_cognito_user_pools {
-  items: [Product]
-  nextToken: String
+  products: ModelProductConnection @aws_iam @aws_cognito_user_pools
 }
 
 type CategoryProduct @aws_cognito_user_pools @aws_iam {
@@ -389,26 +385,57 @@ type Mutation {
     condition: ModelCategoryProductConditionInput
   ): CategoryProduct @aws_iam @aws_cognito_user_pools
   deleteCategoryProduct(
-    input: DeleteCategoryProductInput!
-    condition: ModelCategoryProductConditionInput
+    input: DeleteCategoryProductInput! # condition: ModelCategoryProductConditionInput
   ): CategoryProduct @aws_iam @aws_cognito_user_pools
   addProductToCategory(input: AddProductToCategoryInput): CategoryProduct
     # @function(name: "directLambdaResolver-${env}")
     @aws_iam
     @aws_cognito_user_pools
   updateProductWithCategories(
-    input: UpdateProductWithCategoriesInput!
+    input: UpdateWithCategoriesInput! # condition: ModelProductConditionInput
   ): Product
     # @function(name: "directLambdaResolver-${env}")
     @aws_iam
     @aws_cognito_user_pools
-  addNewVendor(input: AddNewVendorInput!): Vendor
+  addNewVendor(
+    input: AddVendorInput! # condition: ModelVendorConditionInput
+  ): Vendor
     # @function(name: "directLambdaResolver-${env}")
     @aws_iam
     @aws_cognito_user_pools
 }
 
-input UpdateProductWithCategoriesInput {
+type ModelProductConnection @aws_iam @aws_cognito_user_pools {
+  items: [Product]
+  nextToken: String
+}
+
+input AddProductToCategoryInput {
+  productID: String
+  categories: [String]!
+  vendorID: String!
+  price: Float
+  name: String
+  image: String
+  description: String
+  currentInventory: Int
+  brand: String
+  height: String
+  weight: String
+  upc: String
+}
+
+input AddVendorInput {
+  PK: ID
+  SK: ID
+  description: String
+  name: String
+  website: String
+  phoneNumber: String
+  vendorContactID: ID
+}
+
+input UpdateWithCategoriesInput {
   PK: ID!
   SK: ID!
   GSI1PK: ID
@@ -427,30 +454,7 @@ input UpdateProductWithCategoriesInput {
   currentCategories: [String]
   createdAt: AWSDateTime!
 }
-input AddNewVendorInput {
-  PK: ID
-  SK: ID
-  description: String
-  name: String
-  website: String
-  phoneNumber: String
-  vendorContactID: ID
-}
 
-input AddProductToCategoryInput {
-  productID: String
-  categories: [String]!
-  vendorID: String!
-  price: Float
-  name: String
-  image: String
-  description: String
-  currentInventory: Int
-  brand: String
-  height: String
-  weight: String
-  upc: String
-}
 input ModelCategoryConditionInput {
   GSI1PK: ModelIDInput
   GSI1SK: ModelIDInput

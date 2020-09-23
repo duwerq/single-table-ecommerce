@@ -29,7 +29,7 @@
         "email"
     ],
     "userpoolClientLambdaRole": "singlee0c0fe59_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "sharedId": "e0c0fe59",
     "resourceName": "singletableecommercee0c0fe59",
     "authSelections": "identityPoolAndUserPool",
@@ -49,15 +49,27 @@
     "usernameAttributes": [
         "email"
     ],
-    "triggers": "{}",
+    "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
     "userPoolGroupList": [
         "admin"
     ],
     "parentStack": {
         "Ref": "AWS::StackId"
     },
-    "permissions": [],
-    "dependsOn": [],
+    "permissions": [
+        "{\"policyName\":\"AddToGroupCognito\",\"trigger\":\"PostConfirmation\",\"effect\":\"Allow\",\"actions\":[\"cognito-idp:AdminAddUserToGroup\",\"cognito-idp:GetGroup\",\"cognito-idp:CreateGroup\"],\"resource\":{\"paramType\":\"!GetAtt\",\"keys\":[\"UserPool\",\"Arn\"]}}"
+    ],
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "singletableecommercee0c0fe59PostConfirmation",
+            "triggerProvider": "Cognito",
+            "attributes": [
+                "Arn",
+                "Name"
+            ]
+        }
+    ],
     "thirdPartyAuth": false,
     "userPoolGroups": true,
     "adminQueries": false,

@@ -33,7 +33,21 @@
         "ApiId": {
           "Ref": "AppSyncApiId"
         },
-        "DataSourceName": "ProductTable",
+        "DataSourceName": {
+          "Fn::ImportValue": {
+            "Fn::Join": [
+              ":",
+              [
+                {
+                  "Ref": "AppSyncApiId"
+                },
+                "GetAtt",
+                "ProductDataSource",
+                "Name"
+              ]
+            ]
+          }
+        },
         "FieldName": "products",
         "TypeName": "Category",
         "RequestMappingTemplateS3Location": {

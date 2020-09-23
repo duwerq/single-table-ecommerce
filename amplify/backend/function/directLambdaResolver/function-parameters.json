@@ -6,6 +6,20 @@
                 "read",
                 "update"
             ]
+        },
+        "storage": {
+            "Vendor:@model(appsync)": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ],
+            "Product:@model(appsync)": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
         }
     }
 }
