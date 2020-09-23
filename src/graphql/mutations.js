@@ -193,6 +193,67 @@ export const deleteCategoryProduct = /* GraphQL */ `
     }
   }
 `;
+export const addProductToCategory = /* GraphQL */ `
+  mutation AddProductToCategory($input: AddProductToCategoryInput) {
+    addProductToCategory(input: $input) {
+      PK
+      SK
+      GSI1PK
+      GSI1SK
+      vendorID
+      price
+      name
+      image
+      description
+      currentInventory
+      brand
+      height
+      weight
+      upc
+      categories
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateProductWithCategories = /* GraphQL */ `
+  mutation UpdateProductWithCategories(
+    $input: UpdateProductWithCategoriesInput!
+  ) {
+    updateProductWithCategories(input: $input) {
+      PK
+      SK
+      GSI1PK
+      GSI1SK
+      vendorID
+      price
+      name
+      image
+      description
+      currentInventory
+      brand
+      height
+      weight
+      upc
+      categories
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const addNewVendor = /* GraphQL */ `
+  mutation AddNewVendor($input: AddNewVendorInput!) {
+    addNewVendor(input: $input) {
+      PK
+      SK
+      description
+      name
+      website
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createVendor = /* GraphQL */ `
   mutation CreateVendor(
     $input: CreateVendorInput!

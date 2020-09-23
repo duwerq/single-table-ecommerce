@@ -1,16 +1,10 @@
 {
     "permissions": {
-        "storage": {
-            "Vendor:@model(appsync)": [
+        "auth": {
+            "singletableecommercee0c0fe59": [
                 "create",
                 "read",
                 "update"
-            ],
-            "Product:@model(appsync)": [
-                "create",
-                "read",
-                "update",
-                "delete"
             ]
         }
     }

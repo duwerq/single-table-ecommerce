@@ -4,6 +4,7 @@
 	API_SINGLETABLEECOMMERCE_PRODUCTTABLE_NAME
 	API_SINGLETABLEECOMMERCE_VENDORTABLE_ARN
 	API_SINGLETABLEECOMMERCE_VENDORTABLE_NAME
+	AUTH_SINGLETABLEECOMMERCEE0C0FE59_USERPOOLID
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
@@ -30,7 +31,7 @@ const addNewVendor = async ({
       updatedAt: new Date().toISOString()
     }
   const createVendorPutParams = {
-    TableName: process.env.API_CLIMATEHUB_VENDORTABLE_NAME,
+    TableName: process.env.API_SINGLETABLEECOMMERCE_VENDORTABLE_ARN,
     Item
   };
 
@@ -58,7 +59,7 @@ const updateCognitoVendorID = async ({vendorID, username}) => {
         Value: vendorID
       }
     ],
-    UserPoolId: process.env.AUTH_CLIMATEHUBB812CC8F_USERPOOLID,
+    UserPoolId: process.env.AUTH_SINGLETABLEECOMMERCEE0C0FE59_USERPOOLID
     Username: username
   };
 

@@ -14,7 +14,6 @@ type Vendor
         groups: ["admin"]
         queries: [get, list]
         mutations: [create, update, delete]
-        # operations: [create, read, update, delete]
       }
       {
         allow: owner
@@ -22,12 +21,7 @@ type Vendor
         queries: [get, list]
         mutations: [create, update, delete]
       }
-      {
-        allow: public
-        provider: iam
-        queries: [get, list]
-        mutations: [create, update, delete]
-      }
+      { allow: public, provider: iam, queries: [get, list] }
     ]
   ) {
   PK: ID! ##  VENDOR#<VendorID>
@@ -398,8 +392,65 @@ type Mutation {
     input: DeleteCategoryProductInput!
     condition: ModelCategoryProductConditionInput
   ): CategoryProduct @aws_iam @aws_cognito_user_pools
+  addProductToCategory(input: AddProductToCategoryInput): CategoryProduct
+    # @function(name: "directLambdaResolver-${env}")
+    @aws_iam
+    @aws_cognito_user_pools
+  updateProductWithCategories(
+    input: UpdateProductWithCategoriesInput!
+  ): Product
+    # @function(name: "directLambdaResolver-${env}")
+    @aws_iam
+    @aws_cognito_user_pools
+  addNewVendor(input: AddNewVendorInput!): Vendor
+    # @function(name: "directLambdaResolver-${env}")
+    @aws_iam
+    @aws_cognito_user_pools
 }
 
+input UpdateProductWithCategoriesInput {
+  PK: ID!
+  SK: ID!
+  GSI1PK: ID
+  GSI1SK: ID
+  vendorID: String
+  price: Float
+  name: String
+  image: String
+  description: String
+  currentInventory: Int
+  brand: String
+  height: String
+  weight: String
+  upc: String
+  categories: [String]
+  currentCategories: [String]
+  createdAt: AWSDateTime!
+}
+input AddNewVendorInput {
+  PK: ID
+  SK: ID
+  description: String
+  name: String
+  website: String
+  phoneNumber: String
+  vendorContactID: ID
+}
+
+input AddProductToCategoryInput {
+  productID: String
+  categories: [String]!
+  vendorID: String!
+  price: Float
+  name: String
+  image: String
+  description: String
+  currentInventory: Int
+  brand: String
+  height: String
+  weight: String
+  upc: String
+}
 input ModelCategoryConditionInput {
   GSI1PK: ModelIDInput
   GSI1SK: ModelIDInput

@@ -1,0 +1,232 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "An auto-generated nested stack.",
+  "Metadata": {},
+  "Parameters": {
+    "AppSyncApiId": {
+      "Type": "String",
+      "Description": "The id of the AppSync API associated with this project."
+    },
+    "AppSyncApiName": {
+      "Type": "String",
+      "Description": "The name of the AppSync API",
+      "Default": "AppSyncSimpleTransform"
+    },
+    "env": {
+      "Type": "String",
+      "Description": "The environment name. e.g. Dev, Test, or Production",
+      "Default": "NONE"
+    },
+    "S3DeploymentBucket": {
+      "Type": "String",
+      "Description": "The S3 bucket containing all deployment assets for the project."
+    },
+    "S3DeploymentRootKey": {
+      "Type": "String",
+      "Description": "An S3 key relative to the S3DeploymentBucket that points to the root\nof the deployment directory."
+    },
+    "authRoleName": {
+      "Type": "String",
+      "Description": "Reference to the name of the Auth Role created for the project."
+    },
+    "unauthRoleName": {
+      "Type": "String",
+      "Description": "Reference to the name of the Unauth Role created for the project."
+    }
+  },
+  "Resources": {
+    "DirectLambdaResolverLambdaDataSourceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": {
+          "Fn::If": [
+            "HasEnvironmentParameter",
+            {
+              "Fn::Join": [
+                "-",
+                [
+                  "DirectLambdaResolvera444",
+                  {
+                    "Ref": "AppSyncApiId"
+                  },
+                  {
+                    "Ref": "env"
+                  }
+                ]
+              ]
+            },
+            {
+              "Fn::Join": [
+                "-",
+                [
+                  "DirectLambdaResolvera444",
+                  {
+                    "Ref": "AppSyncApiId"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "appsync.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "InvokeLambdaFunction",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": ["lambda:InvokeFunction"],
+                  "Resource": {
+                    "Fn::If": [
+                      "HasEnvironmentParameter",
+                      {
+                        "Fn::Sub": [
+                          "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:directLambdaResolver-${env}",
+                          {
+                            "env": {
+                              "Ref": "env"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "Fn::Sub": [
+                          "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:directLambdaResolver",
+                          {}
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "DirectLambdaResolverLambdaDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "Name": "DirectLambdaResolverLambdaDataSource",
+        "Type": "AWS_LAMBDA",
+        "ServiceRoleArn": {
+          "Fn::GetAtt": ["DirectLambdaResolverLambdaDataSourceRole", "Arn"]
+        },
+        "LambdaConfig": {
+          "LambdaFunctionArn": {
+            "Fn::If": [
+              "HasEnvironmentParameter",
+              {
+                "Fn::Sub": [
+                  "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:directLambdaResolver-${env}",
+                  {
+                    "env": {
+                      "Ref": "env"
+                    }
+                  }
+                ]
+              },
+              {
+                "Fn::Sub": [
+                  "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:directLambdaResolver",
+                  {}
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "DependsOn": "DirectLambdaResolverLambdaDataSourceRole"
+    },
+    "InvokeDirectLambdaResolverLambdaDataSource": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "Name": "InvokeDirectLambdaResolverLambdaDataSource",
+        "DataSourceName": "DirectLambdaResolverLambdaDataSource",
+        "FunctionVersion": "2018-05-29"
+      },
+      "DependsOn": "DirectLambdaResolverLambdaDataSource"
+    },
+    "MutationaddProductToCategoryResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "TypeName": "Mutation",
+        "FieldName": "addProductToCategory",
+        "Kind": "UNIT",
+        "DataSourceName": "DirectLambdaResolverLambdaDataSource"
+      },
+      "DependsOn": "DirectLambdaResolverLambdaDataSource"
+    },
+    "MutationupdateProductWithCategoriesResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "TypeName": "Mutation",
+        "FieldName": "updateProductWithCategories",
+        "Kind": "UNIT",
+        "DataSourceName": "DirectLambdaResolverLambdaDataSource"
+      },
+      "DependsOn": "DirectLambdaResolverLambdaDataSource"
+    },
+    "MutationaddNewVendorResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "AppSyncApiId"
+        },
+        "TypeName": "Mutation",
+        "FieldName": "addNewVendor",
+        "DataSourceName": "DirectLambdaResolverLambdaDataSource",
+        "Kind": "UNIT"
+      },
+      "DependsOn": "DirectLambdaResolverLambdaDataSource"
+    }
+  },
+  "Conditions": {
+    "HasEnvironmentParameter": {
+      "Fn::Not": [
+        {
+          "Fn::Equals": [
+            {
+              "Ref": "env"
+            },
+            "NONE"
+          ]
+        }
+      ]
+    },
+    "AlwaysFalse": {
+      "Fn::Equals": ["true", "false"]
+    }
+  },
+  "Outputs": {
+    "EmptyOutput": {
+      "Description": "An empty output. You may delete this if you have at least one resource above.",
+      "Value": ""
+    }
+  }
+}
