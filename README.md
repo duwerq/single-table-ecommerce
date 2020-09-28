@@ -82,32 +82,32 @@ $ gatsby build
 
 ## DynamoDB Design
 
-| Entity            | PK                     | SK                                                                                     |
-| ----------------- | ---------------------- | -------------------------------------------------------------------------------------- |
-| Products          | VENDOR\#<VendorID>     | PRODUCT\#<ProductID>                                                                   |
-| ProductCategories | CATEGORY\#<CategoryID> | <CreatedAt\-YYYY\-MM\-DD> \#PRICE\#<Price> \#VENDOR\#<VendorID> \#PRODUCT\#<ProductID> |
-| Categories        | CATEGORY               | CATEGORY\#<CategoryName>                                                               |
-| Vendors           | VENDOR\#<VendorID>     | VENDOR\#<VendorID>                                                                     |
+| Entity            | PK                   | SK                                                                               |
+| ----------------- | -------------------- | -------------------------------------------------------------------------------- |
+| Products          | VENDOR\#VENDORID     | PRODUCT\#PRODUCID                                                                |
+| ProductCategories | CATEGORY\#CATEGORYID | <CreatedAt\-YYYY\-MM\-DD> \#PRICE\#<Price> \#VENDOR\#VENDORID\#PRODUCT\#PRODUCID |
+| Categories        | CATEGORY             | CATEGORY\#CATEGORYNAME                                                           |
+| Vendors           | VENDOR\#VENDORID     | VENDOR\#VENDORID                                                                 |
 
-| Entity            | GSI1PK                 | GSI2PK                                                                     |
-| ----------------- | ---------------------- | -------------------------------------------------------------------------- |
-| Products          |                        |                                                                            |
-| ProductCategories | CATEGORY\#<CategoryID> | PRICE\#<Price\(includes all zeros to 10 mil including cents\)\#<CreatedAt> |
-| Categories        | CATEGORY               | CATEGORY\#<CategoryName>                                                   |
-|                   |                        |                                                                            |
+| Entity            | GSI1PK               | GSI2PK                                                                     |
+| ----------------- | -------------------- | -------------------------------------------------------------------------- |
+| Products          |                      |                                                                            |
+| ProductCategories | CATEGORY\#CATEGORYID | PRICE\#<Price\(includes all zeros to 10 mil including cents\)\#<CreatedAt> |
+| Categories        | CATEGORY             | CATEGORY\#CATEGORYNAME                                                     |
+|                   |                      |                                                                            |
 
-| Access Patterns                            |                                                                       | Source Notes              |
-| ------------------------------------------ | --------------------------------------------------------------------- | ------------------------- |
-| Get Products By Category By Date           | PK = CATEGORY<CategoryID>, SK = between\(YYYY\-MM\-DD, YYYY\-MM\-DD\) | ProductTable \- MainIndex |  |
-| Get ProductsByVendor                       | PK = VENDOR\#<VendorID>                                               | ProductTable \- MainIndex |  |
-| Get Categories                             | PK = CATEGORY                                                         | ProductTable \- MainIndex |  |
-| Get Vendor                                 | PK = VENDOR<VendorID>, SK = VENDOR<VendorID>                          | ProductTable \- MainIndex |  |
-| Get Product By Category By Price           |                                                                       | ProductTable \- GSI1      | When creating the GSI1SK on ProductCategories |
-|                                            |                                                                       |                           | , the length of numbers for price will always be the same |
-| Add Category                               | PK = "CATEGORY", SK = CATEGORY<CategoryId>                            |                           |  |
-| Add Product to Category \| CategoryProduct |                                                                       |                           | SK Date is comprised of Products original CreatedAt\. |
-|                                            |                                                                       |                           | Will also need TransactWriteItems to update original Product Record after creating CategoryProduct |
-|                                            |                                                                       |                           |  |
+| Access Patterns                            |                                                                     | Source Notes              |
+| ------------------------------------------ | ------------------------------------------------------------------- | ------------------------- |
+| Get Products By Category By Date           | PK = CATEGORYCATEGORYID, SK = between\(YYYY\-MM\-DD, YYYY\-MM\-DD\) | ProductTable \- MainIndex |  |
+| Get ProductsByVendor                       | PK = VENDOR\#VENDORID                                               | ProductTable \- MainIndex |  |
+| Get Categories                             | PK = CATEGORY                                                       | ProductTable \- MainIndex |  |
+| Get Vendor                                 | PK = VENDORVENDORID, SK = VENDORVENDORID                            | ProductTable \- MainIndex |  |
+| Get Product By Category By Price           |                                                                     | ProductTable \- GSI1      | When creating the GSI1SK on ProductCategories |
+|                                            |                                                                     |                           | , the length of numbers for price will always be the same |
+| Add Category                               | PK = "CATEGORY", SK = CATEGORYCATEGORYID                            |                           |  |
+| Add Product to Category \| CategoryProduct |                                                                     |                           | SK Date is comprised of Products original CreatedAt\. |
+|                                            |                                                                     |                           | Will also need TransactWriteItems to update original Product Record after creating CategoryProduct |
+|                                            |                                                                     |                           |  |
 
 ## Amplify/AppSync/Lambda resources that were modified to accomodate single table design
 
