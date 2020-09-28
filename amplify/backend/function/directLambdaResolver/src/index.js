@@ -10,7 +10,7 @@
 Amplify Params - DO NOT EDIT */
 
 const {addProductToCategory} = require("./resolvers/addProductToCategory")
-const {addNewVendor} = require("./resolvers/addNewVendor")
+// const {addNewVendor} = require("./resolvers/addNewVendor")
 const {updateProductWithCategories} = require("./resolvers/updateProductWithCategories")
 
 exports.handler = async (event, context, callback) => {
@@ -28,15 +28,15 @@ exports.handler = async (event, context, callback) => {
                 arguments,
                 callback
             });
-        case "addNewVendor":
+        // case "addNewVendor":
             
-            return addNewVendor({
-                info,
-                identity,
-                arguments,
-                callback
-            });
-            // updateProductWithCategories
+        //     return addNewVendor({
+        //         info,
+        //         identity,
+        //         arguments,
+        //         callback
+        //     });
+        //     // updateProductWithCategories
         case "updateProductWithCategories":
             console.log('update')
             return updateProductWithCategories({

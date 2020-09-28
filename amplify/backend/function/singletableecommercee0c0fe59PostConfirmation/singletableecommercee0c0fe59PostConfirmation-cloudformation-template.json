@@ -101,7 +101,7 @@
 				"Runtime": "nodejs10.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "amplify-singletableecommerce-dev-75641-deployment",
+					"S3Bucket": "amplify-singletableecommerce-test-102327-deployment",
 					"S3Key": "amplify-builds/singletableecommercee0c0fe59PostConfirmation-3838582f30484855445a-build.zip"
 				}
 			}

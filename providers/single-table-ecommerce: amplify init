@@ -1,0 +1,17 @@
+single-table-ecommerce: amplify init
+Note: It is recommended to run this command from the root of your app directory
+? Enter a name for the environment master
+? Do you want to use an AWS profile? Yes
+? Please choose the profile you want to use default
+
+⠋ Initializing project in the cloud...
+
+✔ Successfully created initial AWS cloud resources for deployments.
+✔ Initialized provider successfully.
+? Do you want to configure Lambda Triggers for Cognito? No
+? Enter the name of the group to which users will be added. 
+Initialized your environment successfully.
+
+Your project has been successfully initialized and connected to the cloud!
+
+single-table-ecommerce: amplify push --force

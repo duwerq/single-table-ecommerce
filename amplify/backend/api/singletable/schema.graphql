@@ -339,8 +339,8 @@ type Query {
 }
 
 input CreateCategoryInput {
-  PK: ID!
-  SK: ID!
+  PK: ID
+  SK: ID
   GSI1PK: ID
   GSI1SK: ID
   name: String
@@ -361,6 +361,14 @@ input UpdateCategoryInput {
 input DeleteCategoryInput {
   PK: ID!
   SK: ID!
+}
+
+input CreateVendorInput {
+  PK: ID
+  SK: ID
+  description: String
+  name: String
+  website: String
 }
 
 type Mutation {

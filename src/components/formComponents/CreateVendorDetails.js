@@ -1,5 +1,5 @@
 import React from 'react'
-import { API } from 'aws-amplify'
+import { API, Auth} from 'aws-amplify'
 import * as mutations from '../../graphql/mutations';
 
 const AUTH_TYPE = {
@@ -10,77 +10,32 @@ const AUTH_TYPE = {
   OPENID_CONNECT: "OPENID_CONNECT"
 }
 const initialState = {
-  name: '', website: '', phoneNumber: '', description: ''
+  name: '', website: '',  description: ''
 }
 
 class CreateVendorDetails extends React.Component {
   state = initialState
 
-  async componentDidMount() {
-    // cons
-  }
+  
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value})
   }
 
-// createLocation = async () => {
-//   const {
-//     selectedPlace,
-//     phoneNumber,
-//     email,
-//     website
-//   } = this.state
-//   const {
-//     formattedSuggestion: {mainText: name},
-//     formatted_address: address,
-//     latLng: {
-//       lat,
-//       lng
-//     },
-//     place_id: placeID,
-//     address_components
-//   } = selectedPlace;
-//   console.log({
-//   phoneNumber: `+1${phoneNumber}`,
-//   email,
-//   website,
-//   name,
-//   address,
-//   placeID,
-//   gps: {
-//     lon: lng,
-//     lat
-//   }
-// })
-//   const location = {
-//     phoneNumber: `+1${phoneNumber}`,
-//     email,
-//     website,
-//     name,
-//     address: getAddressComponents(address_components),
-//     gps: {
-//       lon: lng,
-//       lat
-//     },
-//     placeID
-//   };s
- 
-//   try {
-//     const {data: {createLocation}} = await API.graphql(graphqlOperation(mutations.createLocation, {location}));
-//     if (createLocation) {
-//       navigate("/app/stripe-signup", {state: {location: {...location,phoneNumber, id: createLocation.id}}})
-//     }
-//   } catch (error) {
-//     console.log({error})
-//   }
-// }
+
 
 createVendor = async () => {
   try {
-    const {data: {addNewVendor}} = await API.graphql({query: mutations.addNewVendor, variables: {input: this.state}, authMode: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS })
-    if (addNewVendor) {
-      this.props.navigate("/inventory")
+    const {data: {createVendor}} = await API.graphql({query: mutations.createVendor, variables: {input: this.state}, authMode: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS })
+    if (createVendor) {
+     
+      const user = await Auth.currentAuthenticatedUser();
+      const result = await Auth.updateUserAttributes(user, {
+          'custom:vendorID': createVendor.PK
+      });
+      if (result) {
+        this.props.navigate("/inventory/add-category")
+      }
     }
   } catch (error) {
     console.log({error})
@@ -89,7 +44,7 @@ createVendor = async () => {
 
   render() {
     const {
-      name, website, phoneNumber, description
+      name, website, description
     } = this.state
     return (
       <>
@@ -121,14 +76,6 @@ createVendor = async () => {
                 <input
                 onChange={this.onChange}
                 value={website} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="website" placeholder="Vendor Website" name="website" />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phoneNumber">
-                 Vendor Phone Number
-                </label>
-                <input
-                onChange={this.onChange}
-                value={phoneNumber} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="phoneNumber" placeholder="Vendor Phone Number" name="phoneNumber" />
               </div>
               <div className="flex items-center justify-between mt-4">
                 <button onClick={this.createVendor} className="bg-secondary hover:bg-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">

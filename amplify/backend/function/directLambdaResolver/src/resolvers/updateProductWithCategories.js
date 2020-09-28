@@ -1,11 +1,13 @@
 /* Amplify Params - DO NOT EDIT
-	API_SINGLETABLEECOMMERCE_GRAPHQLAPIIDOUTPUT
-	API_SINGLETABLEECOMMERCE_PRODUCTTABLE_ARN
-	API_SINGLETABLEECOMMERCE_PRODUCTTABLE_NAME
-	API_SINGLETABLEECOMMERCE_VENDORTABLE_ARN
-	API_SINGLETABLEECOMMERCE_VENDORTABLE_NAME
+	API_SINGLETABLE_GRAPHQLAPIIDOUTPUT
+	API_SINGLETABLE_PRODUCTTABLE_ARN
+	API_SINGLETABLE_PRODUCTTABLE_NAME
+	API_SINGLETABLE_VENDORTABLE_ARN
+	API_SINGLETABLE_VENDORTABLE_NAME
+	AUTH_SINGLETABLEECOMMERCEE0C0FE59_USERPOOLID
 	ENV
 	REGION
+Amplify Params -
 Amplify Params - DO NOT EDIT */
 AWS = require('aws-sdk');
 const db = new AWS.DynamoDB.DocumentClient();
@@ -59,7 +61,7 @@ const updateProductWithCategories = async ({
       TransactItems: [
         {
           Update: {
-            TableName: process.env.API_CLIMATEHUB_PRODUCTTABLE_NAME,
+            TableName: process.env.API_SINGLETABLE_PRODUCTTABLE_NAME,
             Key: { PK, SK },
             UpdateExpression,
             ExpressionAttributeValues,
@@ -68,9 +70,9 @@ const updateProductWithCategories = async ({
         },
         ...categories.map((categoryID) => ({
             Put: {
-              TableName: process.env.API_CLIMATEHUB_PRODUCTTABLE_NAME,
+              TableName: process.env.API_SINGLETABLE_PRODUCTTABLE_NAME,
               Item: {
-                PK: `CATEGORY#${categoryID}`,
+                PK: categoryID,
                 SK: `${createdAt.split("T")[0]}#${SK}#${PK}`,
                 ...CategoryProductItem
               }
@@ -84,9 +86,9 @@ const updateProductWithCategories = async ({
       if (!categories.includes(currentCategory)) {
         transactItemsParams.TransactItems.push({
           Delete: {
-            TableName: process.env.API_CLIMATEHUB_PRODUCTTABLE_NAME,
+            TableName: process.env.API_SINGLETABLE_PRODUCTTABLE_NAME,
             Key: {
-              PK: `CATEGORY#${currentCategory}`,
+              PK: currentCategory,
               SK: `${createdAt.split("T")[0]}#${SK}#${PK}`,
             }
           }

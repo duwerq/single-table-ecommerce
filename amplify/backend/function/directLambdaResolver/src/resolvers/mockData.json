@@ -1,0 +1,71 @@
+{
+  "arguments": {
+    "input": {
+      "brand": "",
+      "categories": ["CATEGORY#COUCHES"],
+      "description": "fafadsf",
+      "name": "Couch",
+      "price": null,
+      "vendorID": "VENDOR#ab10c696-1b72-4202-a3d6-598b4e2be884"
+    }
+  },
+  "identity": {
+    "claims": {
+      "sub": "db7ac1f9-3f46-4dd9-9d22-9e4728fb5ff3",
+      "cognito:groups": ["superUser", "admin"],
+      "event_id": "83aede6c-1187-4208-9869-3b4646988058",
+      "token_use": "access",
+      "scope": "aws.cognito.signin.user.admin",
+      "auth_time": 1600351604,
+      "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_K6ElAqoE9",
+      "exp": 1600373568,
+      "iat": 1600369968,
+      "jti": "743ca04b-d7d8-4fdc-a19f-e0a1268a91d3",
+      "client_id": "5s7is5c9u8alpssq4be0c914s6",
+      "username": "db7ac1f9-3f46-4dd9-9d22-9e4728fb5ff3"
+    },
+    "defaultAuthStrategy": "DENY",
+    "groups": ["superUser", "admin"],
+    "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_K6ElAqoE9",
+    "sourceIp": ["67.167.56.142"],
+    "sub": "db7ac1f9-3f46-4dd9-9d22-9e4728fb5ff3",
+    "username": "db7ac1f9-3f46-4dd9-9d22-9e4728fb5ff3"
+  },
+  "source": null,
+
+  "prev": null,
+  "info": {
+    "fieldName": "addProductToCategory",
+    "selectionSetList": [
+      "PK",
+      "SK",
+      "GSI1PK",
+      "GSI1SK",
+      "price",
+      "image",
+      "description",
+      "currentInventory",
+      "brand",
+      "height",
+      "weight",
+      "upc",
+      "vendorID",
+      "name",
+      "createdAt",
+      "categories"
+    ],
+    "selectionSetGraphQL": "{\n  PK\n  SK\n  GSI1PK\n  GSI1SK\n  price\n  image\n  description\n  currentInventory\n  brand\n  height\n  weight\n  upc\n  vendorID\n  name\n  createdAt\n  categories\n}",
+    "parentTypeName": "Mutation",
+    "variables": {
+      "input": {
+        "brand": "",
+        "categories": ["CATEGORY#COUCHES"],
+        "description": "fafadsf",
+        "name": "Couch",
+        "price": null,
+        "vendorID": "VENDOR#ab10c696-1b72-4202-a3d6-598b4e2be884"
+      }
+    }
+  },
+  "stash": {}
+}

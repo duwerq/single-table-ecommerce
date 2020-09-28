@@ -133,8 +133,8 @@
 				"Runtime": "nodejs12.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "amplify-singletableecommerce-dev-75641-deployment",
-					"S3Key": "amplify-builds/directLambdaResolver-51454b594a317373434e-build.zip"
+					"S3Bucket": "amplify-singletableecommerce-test-102327-deployment",
+					"S3Key": "amplify-builds/directLambdaResolver-507a327a45546d6b5956-build.zip"
 				}
 			}
 		},

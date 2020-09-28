@@ -7,10 +7,11 @@
     "functionName": "singletableecommercee0c0fe59PostConfirmation",
     "resourceName": "singletableecommercee0c0fe59PostConfirmation",
     "parentStack": "auth",
-    "triggerEnvs": [],
+    "triggerEnvs": "[]",
     "triggerDir": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/PostConfirmation",
     "triggerTemplate": "PostConfirmation.json.ejs",
     "roleName": "singletableecommercee0c0fe59PostConfirmation",
     "skipEdit": true,
-    "GROUP": "admin"
+    "GROUP": "admin",
+    "triggerEventPath": "PostConfirmation.event.json"
 }

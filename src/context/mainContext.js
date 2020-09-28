@@ -2,7 +2,7 @@ import React from "react"
 import { API, Auth } from "aws-amplify";
 import { toast } from 'react-toastify';
 import awsconfig from '../aws-exports';
-import * as queries from "../graphql/customQueries"
+import * as queries from "../customGraphql/queries";
 
 
 const productImageUrl = ({SK}) => {

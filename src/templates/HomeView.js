@@ -52,8 +52,8 @@ class  Home extends React.Component {
             </div>
           </div>
           <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between">
-            <DisplayMedium imageSrc={categories[0].image} subtitle={`${categories[0].itemCount} items`} title={titleIfy(categories[0].name)} link={`category/${slugify(categories[0].name)}`} />
-            <DisplayMedium imageSrc={categories[1].image} subtitle={`${categories[1].itemCount} items`} title={titleIfy(categories[1].name)} link={`category/${slugify(categories[1].name)}`} />
+            {categories[0] && <DisplayMedium imageSrc={categories[0].image} subtitle={`${categories[0].itemCount} items`} title={titleIfy(categories[0].name)} link={`category/${slugify(categories[0].name)}`} />}
+           {categories[1] && <DisplayMedium imageSrc={categories[1].image} subtitle={`${categories[1].itemCount} items`} title={titleIfy(categories[1].name)} link={`category/${slugify(categories[1].name)}`} />}
           </div>
           <div className="pt-10 pb-6 flex flex-col items-center">
             <h2 className="text-4xl mb-3">Trending Now</h2>
@@ -62,13 +62,13 @@ class  Home extends React.Component {
           <div className="my-8 flex flex-col lg:flex-row justify-between">
 
           
-            <DisplaySmall imageSrc={inventory[0].image} title={inventory[0].name} subtitle={inventory[0].categories[0]} link={`product/${slugify(getProductIDFromCategory(inventory[0].SK))}`} />
+           {inventory[0] && <DisplaySmall imageSrc={inventory[0].image} title={inventory[0].name} subtitle={inventory[0].categories[0]} link={`product/${slugify(getProductIDFromCategory(inventory[0].SK))}`} />}
 
-            <DisplaySmall imageSrc={inventory[1].image} title={inventory[1].name} subtitle={inventory[1].categories[0]} link={`product/${slugify(getProductIDFromCategory(inventory[1].SK))}`} />
+            {inventory[1] && <DisplaySmall imageSrc={inventory[1].image} title={inventory[1].name} subtitle={inventory[1].categories[0]} link={`product/${slugify(getProductIDFromCategory(inventory[1].SK))}`} />}
 
-            <DisplaySmall imageSrc={inventory[2].image} title={inventory[2].name} subtitle={inventory[2].categories[0]} link={`product/${slugify(getProductIDFromCategory(inventory[2].SK))}`} />
+            {inventory[2] && <DisplaySmall imageSrc={inventory[2].image} title={inventory[2].name} subtitle={inventory[2].categories[0]} link={`product/${slugify(getProductIDFromCategory(inventory[2].SK))}`} />}
 
-            <DisplaySmall imageSrc={inventory[3].image} title={inventory[3].name} subtitle={inventory[3].categories[0]} link={`product/${slugify(getProductIDFromCategory(inventory[3].SK))}`} />
+            {inventory[3] && <DisplaySmall imageSrc={inventory[3].image} title={inventory[3].name} subtitle={inventory[3].categories[0]} link={`product/${slugify(getProductIDFromCategory(inventory[3].SK))}`} />}
           </div>
         </>
       }

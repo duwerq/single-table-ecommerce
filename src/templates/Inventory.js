@@ -26,7 +26,7 @@ class Inventory extends React.Component {
       const { attributes } = this.props.context.currentUser;
       const {data: {listProducts}} = await API.graphql({
         query: queries.listProducts , 
-        variables: {PK: `VENDOR#${attributes["custom:vendorID"]}` }
+        variables: {PK: attributes["custom:vendorID"] }
       })
       if (listProducts) {
         this.setState({inventory: listProducts.items})

@@ -33,11 +33,14 @@ class Layout extends React.Component {
             
             let links = [];
             const { categories } = context
-            
-            links = categories.map(category => ({
-              name: titleIfy(category.name),
-              link: `/category/${slugify(category.name)}`
-            }));
+            console.log({categories})
+            if (categories) {
+              links = categories.map(category => ({
+                name: titleIfy(category.name),
+                link: `/category/${slugify(category.name)}`
+              }));
+            }
+     
             links.unshift({
               name: 'Home',
               link: '/'
@@ -76,13 +79,13 @@ class Layout extends React.Component {
                           )
                         }
                       </div> */}
-                      {path.includes('home') || path === '/' &&
+                      
                         <div className="flex flex-1 justify-end">
                           <Link to="/vendor/signin">
                             <p className="pt-4 text-xs">Vendor Sign In</p>
                           </Link>
                         </div>
-                      }
+                      
                     </div>
                   </div>
                 </nav>

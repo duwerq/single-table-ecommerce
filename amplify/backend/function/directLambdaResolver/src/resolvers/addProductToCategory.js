@@ -1,12 +1,3 @@
-/* Amplify Params - DO NOT EDIT
-	API_SINGLETABLEECOMMERCE_GRAPHQLAPIIDOUTPUT
-	API_SINGLETABLEECOMMERCE_PRODUCTTABLE_ARN
-	API_SINGLETABLEECOMMERCE_PRODUCTTABLE_NAME
-	API_SINGLETABLEECOMMERCE_VENDORTABLE_ARN
-	API_SINGLETABLEECOMMERCE_VENDORTABLE_NAME
-	ENV
-	REGION
-Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk');
 const db = new AWS.DynamoDB.DocumentClient();
@@ -43,10 +34,10 @@ const addProductToCategory = async ({
       TransactItems: [
         {
           Put: {
-            TableName: process.env.API_CLIMATEHUB_PRODUCTTABLE_NAME,
+            TableName: process.env.API_SINGLETABLE_PRODUCTTABLE_NAME,
             ConditionExpression: "attribute_not_exists(PK) AND attribute_not_exists(SK)",
             Item: {
-              PK: `VENDOR#${vendorID}`,
+              PK:  vendorID,
               SK: `PRODUCT#${newProductID}`,
               price,
               // image,
@@ -63,11 +54,11 @@ const addProductToCategory = async ({
         },
         ...categories.map((categoryID) => ({
             Put: {
-              TableName: process.env.API_CLIMATEHUB_PRODUCTTABLE_NAME,
+              TableName: process.env.API_SINGLETABLE_PRODUCTTABLE_NAME,
               ConditionExpression: "attribute_not_exists(PK) AND attribute_not_exists(SK)",
               Item: {
-                PK: `CATEGORY#${categoryID}`,
-                SK: `${createdAt.split("T")[0]}#PRODUCT#${newProductID}#VENDOR#${vendorID}`,
+                PK: categoryID,
+                SK: `${createdAt.split("T")[0]}#PRODUCT#${newProductID}#${vendorID}`,
                 price,
                 // image,
                 description,
@@ -87,7 +78,7 @@ const addProductToCategory = async ({
       const Items = await db.transactWrite(transactItemsParams).promise()
       if (Items) {
         const newProduct = {
-          PK: `VENDOR#${vendorID}`,
+          PK: vendorID,
           SK: `PRODUCT#${newProductID}`,
           price,
           // image,
@@ -111,7 +102,7 @@ const addProductToCategory = async ({
     let productRecord = null;
     try {
       const getProductParams = {
-        TableName: process.env.API_CLIMATEHUB_PRODUCTTABLE_NAME,
+        TableName: process.env.API_SINGLETABLE_PRODUCTTABLE_NAME,
         AttributesToGet: [
           'PK',
           'SK',
@@ -170,11 +161,11 @@ const addProductToCategory = async ({
         TransactItems: [
           ...categories.map((categoryID) => ({
             Put: {
-              TableName: process.env.API_CLIMATEHUB_PRODUCTTABLE_NAME,
+              TableName: process.env.API_SINGLETABLE_PRODUCTTABLE_NAME,
               ConditionExpression: "attribute_not_exists(PK) AND attribute_not_exists(SK)",
               Item: {
-                PK: `CATEGORY#${categoryID}`,
-                SK: `${productCreatedAt}#PRODUCT#${productID}#VENDOR#${vendorID}`,
+                PK: categoryID,
+                SK: `${productCreatedAt}#PRODUCT#${productID}#${vendorID}`,
                 price,
                 // image,
                 description,
@@ -188,7 +179,7 @@ const addProductToCategory = async ({
           })),
           {
             Update: {
-                TableName: process.env.API_CLIMATEHUB_PRODUCTTABLE_NAME,
+                TableName: process.env.API_SINGLETABLE_PRODUCTTABLE_NAME,
                 Key:{
                   PK: vendorID,
                   SK: productID
@@ -209,7 +200,7 @@ const addProductToCategory = async ({
         const Items = await db.transactWrite(transactItemsParams).promise()
         if (Items) {
           const newCategoryProduct = {
-            PK: `VENDOR#${vendorID}`,
+            PK: vendorID,
             SK: `PRODUCT#${productID}`,
             price,
             categories: newCategories,

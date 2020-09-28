@@ -30,13 +30,7 @@ const defaultState = {
   name: '', 
   brand: '',
   price: '', 
-  categories: {
-    "Agriculture": false,
-    "Auto/Transportation": false,
-    "Industrial": false,
-    "Solar": false,
-    "Smart Buildings": false
-  }, 
+
   showCategories: false,
   image: '', 
   description: '', 
@@ -48,9 +42,13 @@ class AddInventory extends React.Component {
   constructor(props) {
     super(props);
 
+    let categories = {};
+    this.props.context.categories.forEach(cat => {
+      categories[cat.SK] = {...cat, isSelected: false}
+    })
     let initialState = {
       ...defaultState,
-      categories: {...defaultState.categories}
+      categories
     }
 
     const { editInventory = {} } = this.props
@@ -80,10 +78,11 @@ class AddInventory extends React.Component {
       }
       if (categories && categories.length > 0)
         Object.keys(initialState.categories).forEach(key => {
-          if (categories.includes(key.replace(" ", "-").toUpperCase())) {
-            initialState.categories[key] = true
+          
+          if (categories(key)){
+            initialState.categories[key].isSelected = true
           } else {
-            initialState.categories[key] = false
+            initialState.categories[key].isSelected = false
           }
       })
     }
@@ -91,6 +90,17 @@ class AddInventory extends React.Component {
     this.state = initialState
   }
   
+  componentDidUpdate(prevProps) {
+    if(prevProps.context.categories !== this.props.context.categories) {
+    
+
+        let categories = {};
+        this.props.context.categories.forEach(cat => {
+          categories[cat.SK] = {...cat, isSelected: false}
+        })
+        this.setState({categories})
+    }
+  }
 
   clearForm = () => {
 
@@ -148,9 +158,9 @@ class AddInventory extends React.Component {
     };
 
     /* Type Cateogory { SK: 'CATEGORY#<categoryID> } */
-    Object.keys(categories).forEach(key => {if(categories[key]) { 
-      const categoryID = key.replace(" ", "-").toUpperCase();
-      input.categories.push(categoryID)
+    Object.keys(categories).forEach(key => {if(categories[key].isSelected) { 
+      
+      input.categories.push(key)
     }})
 
     if (SK) {
@@ -183,7 +193,7 @@ class AddInventory extends React.Component {
     const {
       name, brand, price, categories, image, imageUrl,description, currentInventory, PK, SK
     } = this.state
-   
+    console.log("this state", this.state, this.props)
     return (
       <div className="flex flex-col flex-1 items-center w-fw">
         <h3>{this.props.editInventory ? 'Edit Product' : 'Add Product'}</h3>
@@ -244,9 +254,9 @@ class AddInventory extends React.Component {
                         {/* Options
                         <!-- Heroicon name: chevron-down --> */}
                         <div className="flex flex-row justify-start">
-                        {Object.keys(categories).some(key => categories[key]) ?
+                        {Object.keys(categories).some(key => categories[key].isSelected) ?
                           Object.keys(categories).map((key,index) => categories[key] &&
-                            <span className={`${index === 0 ? "px-1": "px-4"} text-gray-700 mg-0 `}>{key}</span>
+                            <span className={`${index === 0 ? "px-1": "px-4"} text-gray-700 mg-0 `}>{categories[key].name}</span>
                           )
                           :
                           <span className="px-1 text-gray-700 mg-0 ">Categories</span>
@@ -274,8 +284,10 @@ class AddInventory extends React.Component {
                   <div className="rounded-md bg-white shadow-xs">
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                       
-                      {Object.keys(categories).map(key => (
-                          <button 
+                      {Object.keys(categories).map(key => {
+                        console.log({categories}, categories[key])
+                      
+                         return ( <button 
                             onClick={(e) => {
                                 e.preventDefault()
                                 console.log('categories', categories[key])
@@ -284,15 +296,18 @@ class AddInventory extends React.Component {
                                     ...prevState, 
                                     categories: {
                                       ...prevState.categories, 
-                                      [key]: !prevState.categories[key]
+                                      [key]: {
+                                        ...prevState.categories[key],
+                                        isSelected: !prevState.categories[key].isSelected
+                                      }
                                     } 
                                   })
                                 )
                               }}
                               className={`${categories[key] ? 'bg-gray-400 text-gray-900' : ''} text-left block px-4 py-2 text-sm leading-5 text-gray-700 w-full hover:bg-gray-200 hover:text-gray-900 focus:outline-none`} role="menuitem">
-                              {key}
+                              {categories[key].name}
                             </button>
-                      ))}
+                      )})}
                     </div>
                   </div>
                 

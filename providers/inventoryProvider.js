@@ -1,5 +1,5 @@
 import Amplify, { API } from "aws-amplify"
-import * as queries from "../src/graphql/customQueries"
+import * as queries from "../src/customGraphql/queries"
 import awsconfig from "../src/aws-exports"
 /*
 Inventory items must adhere to the following schema:

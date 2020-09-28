@@ -1,77 +1,62 @@
 {
-    "identityPoolName": "singletableecommercee0c0fe59_identitypool_e0c0fe59",
-    "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "singlee0c0fe59",
-    "userPoolName": "singletableecommercee0c0fe59_userpool_e0c0fe59",
-    "autoVerifiedAttributes": [
-        "email"
-    ],
-    "mfaConfiguration": "OFF",
-    "mfaTypes": [
-        "SMS Text Message"
-    ],
-    "smsAuthenticationMessage": "Your authentication code is {####}",
-    "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Your verification code",
-    "emailVerificationMessage": "Your verification code is {####}",
-    "defaultPasswordPolicy": false,
-    "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [],
-    "requiredAttributes": [
-        "email"
-    ],
-    "userpoolClientGenerateSecret": true,
-    "userpoolClientRefreshTokenValidity": 30,
-    "userpoolClientWriteAttributes": [
-        "email"
-    ],
-    "userpoolClientReadAttributes": [
-        "email"
-    ],
-    "userpoolClientLambdaRole": "singlee0c0fe59_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": true,
-    "sharedId": "e0c0fe59",
-    "resourceName": "singletableecommercee0c0fe59",
-    "authSelections": "identityPoolAndUserPool",
-    "authRoleArn": {
-        "Fn::GetAtt": [
-            "AuthRole",
-            "Arn"
-        ]
-    },
-    "unauthRoleArn": {
-        "Fn::GetAtt": [
-            "UnauthRole",
-            "Arn"
-        ]
-    },
-    "useDefault": "manual",
-    "usernameAttributes": [
-        "email"
-    ],
-    "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
-    "userPoolGroupList": [
-        "admin"
-    ],
-    "parentStack": {
-        "Ref": "AWS::StackId"
-    },
-    "permissions": [
-        "{\"policyName\":\"AddToGroupCognito\",\"trigger\":\"PostConfirmation\",\"effect\":\"Allow\",\"actions\":[\"cognito-idp:AdminAddUserToGroup\",\"cognito-idp:GetGroup\",\"cognito-idp:CreateGroup\"],\"resource\":{\"paramType\":\"!GetAtt\",\"keys\":[\"UserPool\",\"Arn\"]}}"
-    ],
-    "dependsOn": [
-        {
-            "category": "function",
-            "resourceName": "singletableecommercee0c0fe59PostConfirmation",
-            "triggerProvider": "Cognito",
-            "attributes": [
-                "Arn",
-                "Name"
-            ]
-        }
-    ],
-    "thirdPartyAuth": false,
-    "userPoolGroups": true,
-    "adminQueries": false,
-    "hostedUI": false
+  "identityPoolName": "singletableecommercee0c0fe59_identitypool_e0c0fe59",
+  "allowUnauthenticatedIdentities": true,
+  "resourceNameTruncated": "singlee0c0fe59",
+  "userPoolName": "singletableecommercee0c0fe59_userpool_e0c0fe59",
+  "autoVerifiedAttributes": ["email"],
+  "mfaConfiguration": "OFF",
+  "mfaTypes": ["SMS Text Message"],
+  "smsAuthenticationMessage": "Your authentication code is {####}",
+  "smsVerificationMessage": "Your verification code is {####}",
+  "emailVerificationSubject": "Your verification code",
+  "emailVerificationMessage": "Your verification code is {####}",
+  "defaultPasswordPolicy": true,
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [
+    "Requires Lowercase",
+    "Requires Uppercase",
+    "Requires Numbers"
+  ],
+  "requiredAttributes": ["email"],
+  "userpoolClientGenerateSecret": true,
+  "userpoolClientRefreshTokenValidity": 30,
+  "userpoolClientWriteAttributes": ["email", "custom:vendorID"],
+  "userpoolClientReadAttributes": [
+    "email",
+    "email_verified",
+    "custom:vendorID"
+  ],
+  "userpoolClientLambdaRole": "singlee0c0fe59_userpoolclient_lambda_role",
+  "userpoolClientSetAttributes": true,
+  "sharedId": "e0c0fe59",
+  "resourceName": "singletableecommercee0c0fe59",
+  "authSelections": "identityPoolAndUserPool",
+  "authRoleArn": {
+    "Fn::GetAtt": ["AuthRole", "Arn"]
+  },
+  "unauthRoleArn": {
+    "Fn::GetAtt": ["UnauthRole", "Arn"]
+  },
+  "useDefault": "manual",
+  "usernameAttributes": ["email"],
+  "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
+  "userPoolGroupList": ["admin"],
+  "parentStack": {
+    "Ref": "AWS::StackId"
+  },
+  "permissions": [
+    "{\"policyName\":\"AddToGroupCognito\",\"trigger\":\"PostConfirmation\",\"effect\":\"Allow\",\"actions\":[\"cognito-idp:AdminAddUserToGroup\",\"cognito-idp:GetGroup\",\"cognito-idp:CreateGroup\"],\"resource\":{\"paramType\":\"!GetAtt\",\"keys\":[\"UserPool\",\"Arn\"]}}"
+  ],
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "singletableecommercee0c0fe59PostConfirmation",
+      "triggerProvider": "Cognito",
+      "attributes": ["Arn", "Name"]
+    }
+  ],
+  "thirdPartyAuth": false,
+  "userPoolGroups": true,
+  "adminQueries": false,
+  "hostedUI": false
 }

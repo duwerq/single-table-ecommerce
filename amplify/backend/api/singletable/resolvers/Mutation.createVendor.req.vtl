@@ -62,10 +62,12 @@ $util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.inpu
 #end
 ## [End] Check authMode and execute owner/group checks **
 
+ #set($primaryKey = $util.autoId())
+
 ## [Start] Set the primary @key. **
 #set( $modelObjectKey = {
-  "PK": $util.dynamodb.toDynamoDB($ctx.args.input.PK),
-  "SK": $util.dynamodb.toDynamoDB($ctx.args.input.SK)
+  "PK": $util.dynamodb.toDynamoDB("VENDOR#${primaryKey}"),
+  "SK": $util.dynamodb.toDynamoDB("VENDOR#${primaryKey}")
 } )
 ## [End] Set the primary @key. **
 
