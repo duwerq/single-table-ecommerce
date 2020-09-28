@@ -2,18 +2,18 @@
 
 JAMstack ECommerce Professional provides a way to quickly get up and running with a fully configurable JAMstack E Commerce site.
 
-Out of the box, the site uses completely static data coming from a provider at `providers/inventoryProvider.js`. You can update this provider to fetch data from any real API by changing the call in the `getInventory` function.
+This project is based off @sw-yx and @dabit3's Jamstack repo. The purpose is to highlight Single Table Design with Amplify and AppSync
 
 ![](design.jpg)
 
-> This project is based off @sw-yx and @dabit3's Jamstack repo. The purpose is to highlight Single Table Design with Amplify and AppSync
+>
 
 ### Getting started
 
 1. Clone the project
 
 ```sh
-$ git clone https://github.com/jamstack-cms/jamstack-ecommerce.git
+$ git clone https://github.com/duwerq/single-table-ecommerce.git
 ```
 
 2. Install the dependencies:
@@ -89,12 +89,12 @@ $ gatsby build
 | Categories        | CATEGORY                  | CATEGORY\# {{CategoryName}}                                                                     |
 | Vendors           | VENDOR\#{{VendorID}}      | VENDOR\#{{VendorID}}                                                                            |
 
-| Entity            | GSI1PK                    | GSI2PK                                                                             |
-| ----------------- | ------------------------- | ---------------------------------------------------------------------------------- |
-| Products          |                           |                                                                                    |
-| ProductCategories | CATEGORY\# {{CategoryId}} | PRICE\# {{Price\(includes all zeros to 10 mil including cents\)}}s\# {{CreatedAt}} |
-| Categories        | CATEGORY                  | CATEGORY\# {{CategoryName}}                                                        |
-|                   |                           |                                                                                    |
+| Entity            | GSI1PK                    | GSI2PK                                                                            |
+| ----------------- | ------------------------- | --------------------------------------------------------------------------------- |
+| Products          |                           |                                                                                   |
+| ProductCategories | CATEGORY\# {{CategoryId}} | PRICE\# {{Price\(includes all zeros to 10 mil including cents\)}}\# {{CreatedAt}} |
+| Categories        | CATEGORY                  | CATEGORY\# {{CategoryName}}                                                       |
+|                   |                           |                                                                                   |
 
 | Access Patterns                            |                                                                           | Source Notes              |
 | ------------------------------------------ | ------------------------------------------------------------------------- | ------------------------- |
